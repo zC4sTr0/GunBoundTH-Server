@@ -1,24 +1,26 @@
 package main
 
 import (
-	"encoding/hex"
-	"fmt"
+	"net"
 
-	"github.com/zC4sTr0/GunBoundTH-Server/cryptography"
+	"github.com/zC4sTr0/GunBoundTH-Server/broker"
 )
 
 func main() {
-	data, err := hex.DecodeString("E4AE6422B374D8779DC2F3695810650F")
-	if err != nil {
-		fmt.Println("Error decoding hex string:", err)
-		return
+	serverOptions := []broker.ServerOption{
+		{
+			ServerName:        "GunBound Server 1",
+			ServerDescription: "Open Area",
+			ServerAddress:     "127.0.0.1",
+			ServerPort:        12345,
+			ServerUtilization: 0,
+			ServerCapacity:    100,
+			ServerEnabled:     true,
+		},
 	}
 
-	decrypted, err := cryptography.GunboundStaticDecrypt(data)
-	if err != nil {
-		fmt.Println("Error decrypting data:", err)
-		return
-	}
+	worldSession := []net.Conn{}
 
-	fmt.Println(cryptography.StringDecode(decrypted))
+	broker := broker.NewBrokerServer("localhost", 8080, serverOptions, worldSession)
+	broker.Listen()
 }
