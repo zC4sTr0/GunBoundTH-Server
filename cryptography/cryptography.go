@@ -3,12 +3,10 @@ package cryptography
 import (
 	"crypto/aes"
 	"encoding/hex"
-	"fmt"
 )
 
 const (
-	KEY_LAUNCHER = ""
-	KEY_BROKER   = ""
+	KEY_BROKER = "FFB3B3BEAE97AD83B9610E23A43C2EB0"
 )
 
 // StringDecode decodes a byte array to a string, stopping at the first null byte
@@ -36,20 +34,12 @@ func AESDecryptBlock(block []byte, key []byte) ([]byte, error) {
 	return decrypted, nil
 }
 
-// GunboundStaticDecrypt decrypts a block using either KEY_LAUNCHER or KEY_BROKER based on the encryption type
-func GunboundStaticDecrypt(block []byte, encryptionType int) ([]byte, error) {
+// GunboundStaticDecrypt decrypts a block using either KEY_BROKER based on the encryption type
+func GunboundStaticDecrypt(block []byte) ([]byte, error) {
 	var key []byte
 	var err error
 
-	switch encryptionType {
-	case 1:
-		key, err = hex.DecodeString(KEY_LAUNCHER)
-	case 2:
-		key, err = hex.DecodeString(KEY_BROKER)
-	default:
-		return nil, fmt.Errorf("invalid encryption type")
-	}
-
+	key, err = hex.DecodeString(KEY_BROKER)
 	if err != nil {
 		return nil, err
 	}
