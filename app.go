@@ -14,7 +14,7 @@ func main() {
 		return
 	}
 
-	decrypted, err := cryptography.GunboundStaticDecrypt(data, 1)
+	decrypted, err := cryptography.GunboundStaticDecrypt(data)
 	if err != nil {
 		fmt.Println("Error decrypting data:", err)
 		return
